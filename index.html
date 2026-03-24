@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manshi Gupta – Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@1,400;1,600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:       #130a0d;
+    --bg2:      #1a0e11;
+    --surface:  #221318;
+    --card:     #271519;
+    --card2:    #2e1a1e;
+    --r1:       #c2185b;
+    --r2:       #e91e8c;
+    --r3:       #f48fb1;
+    --r4:       #fce4ec;
+    --r5:       #fff0f5;
+    --text:     #f0e6ea;
+    --sub:      #b08090;
+    --faint:    #5c3040;
+    --muted:    #8a6070;
+    --border:   rgba(194,24,91,.18);
+    --border2:  rgba(244,143,177,.28);
+    --grad:     linear-gradient(135deg,#c2185b,#e91e8c,#f48fb1);
+    --grad-btn: linear-gradient(135deg,#c2185b,#e91e8c);
+    --grad-txt: linear-gradient(135deg,#f48fb1,#fce4ec,#fff0f5);
+  }
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body {
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+    line-height:1.6;
+  }
+
+  body::before {
+    content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
+    background:
+      radial-gradient(ellipse 60% 50% at 5%  10%, rgba(194,24,91,.14)  0%,transparent 65%),
+      radial-gradient(ellipse 40% 50% at 95% 90%, rgba(233,30,140,.10) 0%,transparent 60%),
+      radial-gradient(ellipse 50% 30% at 50%  0%, rgba(244,143,177,.06)0%,transparent 55%);
+  }
+
+  #bg-canvas {
+    position:fixed; inset:0; z-index:1; pointer-events:none;
+    width:100%; height:100%;
+  }
+
+  /* NAV */
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:200;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:1.1rem 3.5rem;
+    background:rgba(19,10,13,.88); backdrop-filter:blur(20px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-brand {
+    font-size:1.35rem; font-weight:700; letter-spacing:.01em;
+    background:var(--grad-txt); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  }
+  .nav-links { display:flex; gap:2.4rem; list-style:none; }
+  .nav-links a { color:var(--sub); text-decoration:none; font-size:.85rem; font-weight:500; transition:color .2s; }
+  .nav-links a:hover { color:var(--r3); }
+
+  /* HERO */
+  #hero {
+    min-height:100vh; display:flex; align-items:center;
+    padding:5.5rem 3.5rem 3rem;
+    position:relative; overflow:hidden;
+  }
+  .hero-inner {
+    display:grid; grid-template-columns:1fr 1fr; grid-template-areas:"left right";
+    align-items:center; gap:4rem;
+    width:100%; max-width:1260px; margin:0 auto;
+    position:relative; z-index:2;
+  }
+  .hero-left  { grid-area:left;  display:flex; flex-direction:column; gap:1.6rem; }
+  .hero-right { grid-area:right; display:flex; justify-content:center; align-items:center; }
+
+  .hero-eyebrow { font-size:.68rem; font-weight:600; letter-spacing:.3em; text-transform:uppercase; color:var(--r3); opacity:.85; animation:fadeUp .6s ease both; }
+  .hero-name { line-height:1.0; animation:fadeUp .6s .1s ease both; }
+  .hero-name-white { display:block; font-size:clamp(3.5rem,6.5vw,5.8rem); font-weight:900; color:var(--text); letter-spacing:-.02em; }
+  .hero-name-rose  { display:block; font-size:clamp(3.5rem,6.5vw,5.8rem); font-weight:900; letter-spacing:-.02em; background:var(--grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .hero-tagline { font-size:.95rem; color:var(--sub); line-height:1.75; max-width:440px; animation:fadeUp .6s .2s ease both; }
+  .hero-socials { display:flex; gap:.75rem; animation:fadeUp .6s .3s ease both; }
+  .icon-btn {
+    width:42px; height:42px; border-radius:50%; border:1px solid var(--border2);
+    background:rgba(194,24,91,.08); display:flex; align-items:center; justify-content:center;
+    color:var(--sub); cursor:pointer; text-decoration:none; transition:all .25s;
+  }
+  .icon-btn:hover { background:var(--grad-btn); color:#fff; border-color:transparent; transform:translateY(-2px); }
+  .icon-btn svg { width:16px; height:16px; }
+
+  .hero-actions { display:flex; align-items:center; gap:.75rem; animation:fadeUp .6s .4s ease both; }
+  .resume-btn {
+    display:inline-flex; align-items:center; gap:.55rem;
+    padding:.65rem 1.6rem; border-radius:50px;
+    background:var(--grad-btn); color:#fff;
+    font-size:.82rem; font-weight:600; text-decoration:none;
+    letter-spacing:.03em;
+    box-shadow:0 4px 20px rgba(194,24,91,.3);
+    transition:all .25s; border:none; cursor:pointer;
+  }
+  .resume-btn:hover { transform:translateY(-2px); box-shadow:0 8px 32px rgba(194,24,91,.45); }
+  .resume-btn svg { width:15px; height:15px; }
+
+  /* ── GLOBE — orbit rings made smaller ── */
+  .globe-container {
+    position:relative; width:340px; height:340px; flex-shrink:0;
+    
+    animation:fadeIn .9s .2s ease both;
+  }
+  /* ring 1: was 116% → now 105% */
+  .orbit-ring {
+    position:absolute; top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    width:105%; height:105%; border-radius:50%;
+    border:1px solid rgba(244,143,177,.22);
+    animation:orbitSpin 18s linear infinite;
+    pointer-events:none;
+  }
+  .orbit-ring::before {
+    content:''; position:absolute; top:-5px; left:50%;
+    width:8px; height:8px; border-radius:50%;
+    background:var(--r3); box-shadow:0 0 10px var(--r2);
+    transform:translateX(-50%);
+  }
+  /* ring 2: was 132% → now 118% */
+  .orbit-ring-2 {
+    position:absolute; top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    width:118%; height:118%; border-radius:50%;
+    border:1px solid rgba(194,24,91,.13);
+    animation:orbitSpin 30s linear infinite reverse;
+    pointer-events:none;
+  }
+  .orbit-ring-2::before {
+    content:''; position:absolute; bottom:-6px; left:28%;
+    width:10px; height:10px; border-radius:50%;
+    background:var(--r1); box-shadow:0 0 12px var(--r2);
+    transform:translateX(-50%);
+  }
+  @keyframes orbitSpin { to { transform:translate(-50%,-50%) rotate(360deg); } }
+
+  .hero-canvas-wrap {
+    position:absolute; inset:0; border-radius:50%; overflow:hidden;
+    box-shadow:0 0 60px rgba(194,24,91,.22), 0 0 120px rgba(233,30,140,.10);
+  }
+  .hero-canvas-wrap::before {
+    content:''; position:absolute; inset:0; border-radius:50%; z-index:1; pointer-events:none;
+    border:1px solid rgba(244,143,177,.2);
+    box-shadow:inset 0 0 50px rgba(194,24,91,.12);
+  }
+  #hero-canvas { width:100%; height:100%; display:block; }
+
+  @keyframes fadeUp  { from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)} }
+  @keyframes fadeIn  { from{opacity:0}to{opacity:1} }
+
+  /* SECTIONS */
+  section { padding:6rem 3.5rem; position:relative; z-index:2; }
+  .section-inner { max-width:1260px; margin:0 auto; }
+  .section-eyebrow { font-size:.68rem; font-weight:700; letter-spacing:.28em; text-transform:uppercase; color:var(--r2); margin-bottom:.8rem; }
+  .section-heading { font-size:clamp(2rem,4vw,2.9rem); font-weight:800; color:var(--text); line-height:1.1; margin-bottom:2.8rem; }
+
+  /* ABOUT + SKILLS */
+  #about .section-inner { display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:start; }
+  .about-title { font-size:clamp(2rem,3.5vw,2.6rem); font-weight:800; color:var(--text); line-height:1.15; margin-bottom:1.5rem; }
+  .about-body { color:var(--sub); font-size:.92rem; line-height:1.85; margin-bottom:1.1rem; }
+  .edu-card {
+    margin-top:1.6rem; padding:1.4rem 1.6rem; border-radius:12px;
+    background:rgba(194,24,91,.06); border:1px solid var(--border);
+    border-left:3px solid var(--r2);
+  }
+  .edu-label { font-size:.68rem; font-weight:600; letter-spacing:.2em; text-transform:uppercase; color:var(--r3); margin-bottom:.5rem; }
+  .edu-degree { font-size:.98rem; font-weight:700; color:var(--text); }
+  .edu-meta { font-size:.8rem; color:var(--muted); margin-top:.3rem; }
+
+  .skills-title { font-size:clamp(2rem,3.5vw,2.6rem); font-weight:800; color:var(--text); margin-bottom:1.8rem; }
+  .skill-cat { margin-bottom:1.4rem; }
+  .skill-cat-label { font-size:.75rem; font-weight:600; color:var(--muted); letter-spacing:.08em; margin-bottom:.65rem; }
+  .skill-pills { display:flex; flex-wrap:wrap; gap:.5rem; }
+  .pill {
+    padding:.32rem 1rem; border-radius:100px;
+    border:1px solid rgba(244,143,177,.2);
+    background:rgba(194,24,91,.06);
+    color:var(--r4); font-size:.8rem; font-weight:500;
+    transition:all .22s; cursor:default;
+  }
+  .pill:hover { background:var(--grad-btn); color:#fff; border-color:transparent; transform:scale(1.04); }
+
+  /* PROJECTS */
+  #projects { background:rgba(26,14,17,.6); }
+  .projects-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
+  .proj-card {
+    padding:2rem 2.2rem; border-radius:14px;
+    background:var(--card); border:1px solid var(--border);
+    display:flex; flex-direction:column; gap:.9rem;
+    transition:all .3s; position:relative;
+  }
+  .proj-card:hover { border-color:var(--border2); transform:translateY(-4px); box-shadow:0 16px 48px rgba(194,24,91,.14); }
+  .proj-card-top { display:flex; align-items:flex-start; justify-content:space-between; }
+  .proj-title { font-size:1.12rem; font-weight:700; color:var(--text); margin-bottom:.2rem; }
+  .proj-subtitle { font-size:.75rem; color:var(--muted); }
+  .proj-link {
+    width:30px; height:30px; border-radius:8px; flex-shrink:0;
+    background:rgba(194,24,91,.1); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--r3); text-decoration:none; transition:all .22s;
+  }
+  .proj-link:hover { background:var(--grad-btn); color:#fff; border-color:transparent; }
+  .proj-link svg { width:13px; height:13px; }
+  .proj-desc { font-size:.83rem; color:var(--sub); line-height:1.8; flex:1; }
+  .tech-pills { display:flex; flex-wrap:wrap; gap:.4rem; }
+  .tech-pill {
+    padding:.2rem .75rem; border-radius:100px; font-size:.72rem; font-weight:500;
+    background:rgba(194,24,91,.08); border:1px solid rgba(244,143,177,.18); color:var(--r3);
+  }
+  .proj-card.highlight { border-color:rgba(233,30,140,.35); }
+  .proj-card.highlight .proj-title { background:var(--grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+
+  /* ── CERTS ── */
+  #certs .section-inner { max-width:1260px; margin:0 auto; }
+  .certs-content-row {
+    display:grid;
+    grid-template-columns:1fr 240px;
+    gap:4rem;
+    align-items:start;
+  }
+  .certs-list { display:flex; flex-direction:column; gap:.85rem; }
+  .cert-row {
+    display:flex; align-items:center; gap:1.2rem;
+    padding:1.1rem 1.6rem; border-radius:12px;
+    background:var(--card); border:1px solid var(--border);
+    transition:all .28s;
+  }
+  .cert-row:hover { border-color:var(--border2); transform:translateX(6px); box-shadow:0 4px 20px rgba(194,24,91,.1); }
+  .cert-medal {
+    width:34px; height:34px; flex-shrink:0; border-radius:50%;
+    background:rgba(194,24,91,.1); border:1px solid var(--border2);
+    display:flex; align-items:center; justify-content:center; color:var(--r3);
+  }
+  .cert-medal svg { width:16px; height:16px; }
+  .cert-name { font-size:.9rem; font-weight:500; color:var(--text); }
+  .cert-row.inprogress .cert-name { color:var(--muted); }
+  .cert-row.inprogress .cert-badge {
+    margin-left:auto; font-size:.62rem; padding:.2rem .7rem; border-radius:100px;
+    background:rgba(233,30,140,.1); border:1px solid rgba(233,30,140,.3); color:var(--r2);
+    white-space:nowrap; font-weight:600;
+  }
+
+  /* ── DNA helix — in grid, aligned with cert rows ── */
+  .helix-wrap {
+    text-align:center;
+    align-self:start;
+  }
+  #helix-canvas {
+    width:240px; height:360px; border-radius:16px; display:block;
+    border:1px solid var(--border); background:var(--surface);
+  }
+  .helix-label { font-size:.58rem; letter-spacing:.2em; text-transform:uppercase; color:var(--faint); margin-top:.6rem; }
+
+  /* CONTACT */
+  #contact {
+    border-top:1px solid var(--border);
+    padding:5rem 3.5rem 3rem;
+    position:relative; z-index:2;
+  }
+  .contact-inner { max-width:1260px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:3rem; }
+  .contact-heading { font-size:clamp(2rem,4vw,3rem); font-weight:800; margin-bottom:.6rem; }
+  .contact-heading span { background:var(--grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .contact-email { font-size:.9rem; color:var(--muted); margin-top:.4rem; }
+  .contact-right { display:flex; align-items:center; gap:1rem; justify-content:flex-end; }
+  .say-hello-btn {
+    padding:.85rem 2.2rem; border-radius:50px;
+    background:var(--grad-btn); color:#fff;
+    font-size:.85rem; font-weight:700; text-decoration:none;
+    box-shadow:0 4px 20px rgba(194,24,91,.3);
+    transition:all .25s; letter-spacing:.04em;
+  }
+  .say-hello-btn:hover { transform:translateY(-2px); box-shadow:0 8px 32px rgba(194,24,91,.45); }
+  .footer-bar {
+    max-width:1260px; margin:2.5rem auto 0;
+    border-top:1px solid var(--border); padding-top:1.5rem;
+    font-size:.75rem; color:var(--faint);
+  }
+
+  ::-webkit-scrollbar { width:3px; }
+  ::-webkit-scrollbar-track { background:var(--bg); }
+  ::-webkit-scrollbar-thumb { background:var(--grad); border-radius:2px; }
+
+  @media(max-width:900px){
+    nav { padding:1rem 1.5rem; }
+    .nav-links { display:none; }
+    #hero { padding:6rem 1.5rem 3rem; }
+    .hero-inner { grid-template-columns:1fr; grid-template-areas:"left" "right"; gap:2rem; }
+    .globe-container { width:260px; height:260px; }
+    section { padding:5rem 1.5rem; }
+    #about .section-inner { grid-template-columns:1fr; gap:3rem; }
+    .projects-grid { grid-template-columns:1fr; }
+    #certs .section-inner { grid-template-columns:1fr; }
+    .helix-wrap { display:none; }
+    .contact-inner { grid-template-columns:1fr; }
+    .contact-right { justify-content:flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<nav>
+  <div class="nav-brand">Manshi</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#certs">Certifications</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <p class="hero-eyebrow">CS &amp; Design Student</p>
+      <div class="hero-name">
+        <span class="hero-name-white">Manshi</span>
+        <span class="hero-name-rose">Gupta</span>
+      </div>
+      <p class="hero-tagline">Blending technology and creativity to build clean, functional digital solutions with a flair for UI/UX thinking.</p>
+      <div class="hero-socials">
+        <a href="mailto:25cd1ma77@gmail.com" class="icon-btn" title="Email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
+        </a>
+        <a href="https://github.com/ui-manshi" target="_blank" class="icon-btn" title="GitHub">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/manshi-gupta-b980ab3a2/" target="_blank" class="icon-btn" title="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+      </div>
+      <div class="hero-actions">
+        <a href="Manshi_Gupta_Resume.pdf" class="resume-btn" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download Resume
+        </a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="globe-container">
+        <div class="orbit-ring"></div>
+        <div class="orbit-ring-2"></div>
+        <div class="hero-canvas-wrap">
+          <canvas id="hero-canvas" width="340" height="340"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT + SKILLS -->
+<section id="about">
+  <div class="section-inner">
+    <div>
+      <p class="section-eyebrow">About</p>
+      <h2 class="about-title">Where Code<br>Meets Design</h2>
+      <p class="about-body">First-year B.Tech (CS &amp; Design) student at Madhav Institute of Technology &amp; Science, passionate about blending technology and creativity.</p>
+      <p class="about-body" style="color:var(--muted);">Strong communicator and quick learner with problem-solving skills and a curiosity-driven mindset. Fluent in English, Hindi, French, and Sanskrit.</p>
+      <div class="edu-card">
+        <p class="edu-label">Education</p>
+        <p class="edu-degree">B.Tech – CS &amp; Design (2025–2029)</p>
+        <p class="edu-meta">MITS · Class 12th: 88% · Class 10th: 94%</p>
+      </div>
+    </div>
+    <div>
+      <p class="section-eyebrow">Skills</p>
+      <h2 class="skills-title">My Toolkit</h2>
+      <div class="skill-cat">
+        <p class="skill-cat-label">Technical</p>
+        <div class="skill-pills">
+          <span class="pill">C</span><span class="pill">C++</span><span class="pill">Python</span>
+          <span class="pill">HTML5</span><span class="pill">CSS3</span><span class="pill">JavaScript</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <p class="skill-cat-label">Frontend</p>
+        <div class="skill-pills">
+          <span class="pill">Flexbox</span><span class="pill">Grid</span>
+          <span class="pill">Responsive Design</span><span class="pill">DOM</span><span class="pill">ES6+</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <p class="skill-cat-label">Tools</p>
+        <div class="skill-pills">
+          <span class="pill">VS Code</span><span class="pill">Git</span><span class="pill">Canva</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <p class="skill-cat-label">Creative</p>
+        <div class="skill-pills">
+          <span class="pill">UI/UX Principles</span>
+          <span class="pill">Concept Sketching</span>
+          <span class="pill">PowerPoint Design</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-inner">
+    <p class="section-eyebrow">Work</p>
+    <h2 class="section-heading">Featured Projects</h2>
+    <div class="projects-grid">
+      <div class="proj-card">
+        <div class="proj-card-top">
+          <div><div class="proj-title">Travelin</div><div class="proj-subtitle">Travel Organizer Web App</div></div>
+          <a href="#" class="proj-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+        </div>
+        <p class="proj-desc">Fetches live flight prices and hotel listings via RapidAPI. Users search by destination and date with results rendered dynamically using JavaScript DOM manipulation.</p>
+        <div class="tech-pills"><span class="tech-pill">HTML</span><span class="tech-pill">CSS</span><span class="tech-pill">JavaScript</span><span class="tech-pill">RapidAPI</span></div>
+      </div>
+      <div class="proj-card highlight">
+        <div class="proj-card-top">
+          <div><div class="proj-title">Squeeze-The-Quiz</div><div class="proj-subtitle">Interactive Quiz Game</div></div>
+          <a href="#" class="proj-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+        </div>
+        <p class="proj-desc">Terminal-based quiz with multiple categories, score tracking, and timed question rounds.</p>
+        <div class="tech-pills"><span class="tech-pill">C</span></div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-card-top">
+          <div><div class="proj-title">Portfolio Webpage</div><div class="proj-subtitle">Personal Site</div></div>
+          <a href="#" class="proj-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+        </div>
+        <p class="proj-desc">Responsive single-page site showcasing projects, skills, and contact info with a smooth UI.</p>
+        <div class="tech-pills"><span class="tech-pill">HTML</span><span class="tech-pill">CSS</span><span class="tech-pill">JavaScript</span></div>
+      </div>
+      <div class="proj-card highlight">
+        <div class="proj-card-top">
+          <div><div class="proj-title">LPG Detector</div><div class="proj-subtitle">Hardware Project</div></div>
+          <a href="#" class="proj-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+        </div>
+        <p class="proj-desc">Arduino-based gas leakage detection system that triggers an alarm when LPG levels exceed safe limits.</p>
+        <div class="tech-pills"><span class="tech-pill">Arduino</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certs">
+  <div class="section-inner">
+    <p class="section-eyebrow">Learning</p>
+    <h2 class="section-heading">Certifications</h2>
+    <div class="certs-content-row">
+      <div class="certs-list">
+        <div class="cert-row">
+          <div class="cert-medal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div>
+          <span class="cert-name">Concept Development and Hands-on C with Evaluation Session</span>
+        </div>
+        <div class="cert-row">
+          <div class="cert-medal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div>
+          <span class="cert-name">Python Essentials for Engineering Applications</span>
+        </div>
+        <div class="cert-row">
+          <div class="cert-medal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div>
+          <span class="cert-name">TechXposure – Basic Info of Fields in Computer Science</span>
+        </div>
+        <div class="cert-row">
+          <div class="cert-medal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div>
+          <span class="cert-name">Responsive Web Design – freeCodeCamp</span>
+        </div>
+        <div class="cert-row inprogress">
+          <div class="cert-medal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div>
+          <span class="cert-name">JavaScript Algorithms &amp; Data Structures – freeCodeCamp</span>
+          <span class="cert-badge">In Progress</span>
+        </div>
+      </div>
+      <!-- DNA helix — aligned with cert rows -->
+      <div class="helix-wrap">
+        <canvas id="helix-canvas"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div>
+      <h2 class="contact-heading">Let's <span>Connect</span></h2>
+      <p class="contact-email">25cd1ma77@gmail.com</p>
+    </div>
+    <div class="contact-right">
+      <a href="mailto:25cd1ma77@gmail.com" class="say-hello-btn">Say Hello</a>
+      <a href="https://github.com/ui-manshi" target="_blank" class="icon-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/manshi-gupta-b980ab3a2/" target="_blank" class="icon-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+      </a>
+    </div>
+  </div>
+  <div class="footer-bar">© 2025 Manshi Gupta. Built with passion.</div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+const RW = {
+  deep:  new THREE.Color(0xc2185b),
+  vivid: new THREE.Color(0xe91e8c),
+  water: new THREE.Color(0xf48fb1),
+  blush: new THREE.Color(0xfce4ec),
+  petal: new THREE.Color(0xffb3c6),
+  light: new THREE.Color(0xf06292),
+  dust:  new THREE.Color(0xd4a5a5),
+};
+const PAL = [RW.deep, RW.vivid, RW.water, RW.blush, RW.petal, RW.light, RW.dust];
+
+function roseLights(scene, bright=1.0) {
+  scene.add(new THREE.AmbientLight(0xfce4ec, 0.28 * bright));
+  const d = new THREE.DirectionalLight(0xfff5f7, 0.75 * bright);
+  d.position.set(5,8,6); scene.add(d);
+  const p1 = new THREE.PointLight(0xe91e8c, 2.2*bright, 55); p1.position.set(-7,5,8);  scene.add(p1);
+  const p2 = new THREE.PointLight(0xf48fb1, 1.8*bright, 55); p2.position.set(7,-4,5);  scene.add(p2);
+  const p3 = new THREE.PointLight(0xc2185b, 1.4*bright, 45); p3.position.set(0,-7,3);  scene.add(p3);
+  const p4 = new THREE.PointLight(0xffb3c6, 0.8*bright, 40); p4.position.set(5,7,2);   scene.add(p4);
+}
+
+/* ══════════════════════════════════════════════
+   1. BACKGROUND PARTICLES
+   — COUNT: 1800 → 700, layer2: 220 → 80
+   — opacity: 0.55 → 0.25, layer2: 0.28 → 0.12
+══════════════════════════════════════════════ */
+(function bgParticles() {
+  const canvas = document.getElementById('bg-canvas');
+  if (!canvas) return;
+
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias:false, alpha:true });
+  renderer.setClearColor(0x000000, 0);
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
+
+  let W = window.innerWidth, H = window.innerHeight;
+  renderer.setSize(W, H);
+
+  const scene  = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, W/H, 0.1, 400);
+  camera.position.set(0, 0, 90);
+
+  /* ── Main particle cloud: 700 particles (was 1800), opacity 0.25 (was 0.55) ── */
+  const COUNT = 700;
+  const positions = new Float32Array(COUNT * 3);
+  const colors    = new Float32Array(COUNT * 3);
+
+  for (let i = 0; i < COUNT; i++) {
+    positions[i*3]   = (Math.random() - 0.5) * 220;
+    positions[i*3+1] = (Math.random() - 0.5) * 130;
+    positions[i*3+2] = (Math.random() - 0.5) * 100;
+    const c = PAL[i % PAL.length];
+    colors[i*3] = c.r; colors[i*3+1] = c.g; colors[i*3+2] = c.b;
+  }
+
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  geo.setAttribute('color',    new THREE.BufferAttribute(colors, 3));
+
+  const mat = new THREE.PointsMaterial({
+    size: 0.55, vertexColors:true, transparent:true,
+    opacity: 0.25,          /* ← reduced from 0.55 */
+    sizeAttenuation:true, depthWrite:false,
+  });
+  const particles = new THREE.Points(geo, mat);
+  scene.add(particles);
+
+  /* ── Secondary layer: 80 particles (was 220), opacity 0.12 (was 0.28) ── */
+  const COUNT2 = 80;
+  const pos2 = new Float32Array(COUNT2 * 3);
+  const col2 = new Float32Array(COUNT2 * 3);
+  for (let i = 0; i < COUNT2; i++) {
+    pos2[i*3]   = (Math.random() - 0.5) * 240;
+    pos2[i*3+1] = (Math.random() - 0.5) * 140;
+    pos2[i*3+2] = (Math.random() - 0.5) * 80;
+    const c = PAL[i % PAL.length];
+    col2[i*3] = c.r; col2[i*3+1] = c.g; col2[i*3+2] = c.b;
+  }
+  const geo2 = new THREE.BufferGeometry();
+  geo2.setAttribute('position', new THREE.BufferAttribute(pos2, 3));
+  geo2.setAttribute('color',    new THREE.BufferAttribute(col2, 3));
+  const layer2 = new THREE.Points(geo2, new THREE.PointsMaterial({
+    size:1.4, vertexColors:true, transparent:true,
+    opacity: 0.12,          /* ← reduced from 0.28 */
+    sizeAttenuation:true, depthWrite:false
+  }));
+  scene.add(layer2);
+
+  let mx = 0, my = 0;
+  document.addEventListener('mousemove', e => {
+    mx = (e.clientX / W - 0.5) * 2;
+    my = (e.clientY / H - 0.5) * 2;
+  });
+  window.addEventListener('resize', () => {
+    W = window.innerWidth; H = window.innerHeight;
+    renderer.setSize(W, H); camera.aspect = W/H; camera.updateProjectionMatrix();
+  });
+
+  let t = 0;
+  (function loop() {
+    requestAnimationFrame(loop); t += 0.0004;
+    particles.rotation.y = t * 0.12 + mx * 0.04;
+    particles.rotation.x = t * 0.06 + my * 0.025;
+    layer2.rotation.y    = -t * 0.08 + mx * 0.03;
+    layer2.rotation.x    = -t * 0.04 + my * 0.02;
+    renderer.render(scene, camera);
+  })();
+})();
+
+/* ══════════════════════════════════════════════
+   2. HERO GLOBE
+══════════════════════════════════════════════ */
+(function heroGlobe() {
+  const canvas = document.getElementById('hero-canvas');
+  if (!canvas) return;
+
+  const SIZE = 340;
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true });
+  renderer.setClearColor(0x000000, 0);
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.setSize(SIZE, SIZE);
+
+  const scene  = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 200);
+  camera.position.set(0, 0, 6.5);
+  roseLights(scene, 1.0);
+
+  const sphere = new THREE.Mesh(
+    new THREE.SphereGeometry(2.2, 40, 40),
+    new THREE.MeshPhongMaterial({ color:0x1e0810, specular:0xffffff, shininess:60, transparent:true, opacity:.84 })
+  );
+  scene.add(sphere);
+
+  scene.add(new THREE.Mesh(
+    new THREE.SphereGeometry(2.22, 18, 18),
+    new THREE.MeshBasicMaterial({ color:0xc2185b, wireframe:true, transparent:true, opacity:.32 })
+  ));
+
+  for (let lat = -75; lat <= 75; lat += 25) {
+    const pts = [];
+    for (let lon = 0; lon <= 360; lon += 4) {
+      const phi=(90-lat)*Math.PI/180, theta=lon*Math.PI/180;
+      pts.push(new THREE.Vector3(2.25*Math.sin(phi)*Math.cos(theta), 2.25*Math.cos(phi), 2.25*Math.sin(phi)*Math.sin(theta)));
+    }
+    scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineBasicMaterial({color:0xe91e8c,transparent:true,opacity:.28})));
+  }
+  for (let lon = 0; lon < 180; lon += 30) {
+    const pts = [];
+    for (let lat = -90; lat <= 90; lat += 4) {
+      const phi=(90-lat)*Math.PI/180, theta=lon*Math.PI/180;
+      pts.push(new THREE.Vector3(2.25*Math.sin(phi)*Math.cos(theta), 2.25*Math.cos(phi), 2.25*Math.sin(phi)*Math.sin(theta)));
+    }
+    scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineBasicMaterial({color:0xc2185b,transparent:true,opacity:.18})));
+  }
+
+  [[0.8,0.4,0.3],[-0.6,0.7,-0.4],[0.3,-0.5,0.8],[-0.9,-0.2,0.4],[0.1,0.9,-0.5],[0.7,-0.7,-0.1]].forEach(([nx,ny,nz],i) => {
+    const len = Math.sqrt(nx*nx+ny*ny+nz*nz);
+    const col = PAL[i % PAL.length];
+    const m = new THREE.Mesh(
+      new THREE.SphereGeometry(.10,10,10),
+      new THREE.MeshPhongMaterial({color:col,emissive:col,emissiveIntensity:.65,shininess:200})
+    );
+    m.position.set(nx/len*2.3, ny/len*2.3, nz/len*2.3);
+    scene.add(m);
+  });
+
+  const glowMat = new THREE.LineBasicMaterial({color:0xf48fb1,transparent:true,opacity:.15});
+  for (let i = 0; i < 10; i++) {
+    const a1=Math.random()*Math.PI*2,b1=Math.random()*Math.PI;
+    const a2=Math.random()*Math.PI*2,b2=Math.random()*Math.PI;
+    const p1=new THREE.Vector3(2.2*Math.sin(b1)*Math.cos(a1),2.2*Math.cos(b1),2.2*Math.sin(b1)*Math.sin(a1));
+    const p2=new THREE.Vector3(2.2*Math.sin(b2)*Math.cos(a2),2.2*Math.cos(b2),2.2*Math.sin(b2)*Math.sin(a2));
+    scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([p1,p2]),glowMat));
+  }
+
+  const moon = new THREE.Mesh(
+    new THREE.SphereGeometry(.22,16,16),
+    new THREE.MeshPhongMaterial({color:0xf48fb1,emissive:0xe91e8c,emissiveIntensity:.42,shininess:180})
+  );
+  scene.add(moon);
+
+  let tX=0, tY=0, cX=0, cY=0, t=0;
+  document.addEventListener('mousemove', e => {
+    const r = canvas.getBoundingClientRect();
+    tX=((e.clientX-r.left)/r.width-.5)*2;
+    tY=((e.clientY-r.top)/r.height-.5)*2;
+  });
+
+  (function loop() {
+    requestAnimationFrame(loop); t += .007;
+    cX += (tX-cX)*.04; cY += (tY-cY)*.04;
+    sphere.rotation.y += .003;
+    scene.rotation.y = cX*.3; scene.rotation.x = -cY*.2;
+    moon.position.set(Math.cos(t*1.2)*3.0, Math.sin(t*.5)*.7, Math.sin(t*1.2)*3.0);
+    renderer.render(scene, camera);
+  })();
+})();
+
+/* ══════════════════════════════════════════════
+   3. DNA HELIX
+══════════════════════════════════════════════ */
+(function dnaHelix() {
+  const canvas = document.getElementById('helix-canvas');
+  if (!canvas) return;
+
+  const W = 240, H = 360;
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true });
+  renderer.setClearColor(0x000000, 0);
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.setSize(W, H);
+
+  const scene  = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(50, W/H, 0.1, 200);
+  camera.position.set(0, 0, 10);
+  roseLights(scene, 1.05);
+
+  const TURNS = 4, STEPS = 140;
+  const strand1 = [], strand2 = [], nodePositions = [];
+
+  for (let i = 0; i <= STEPS; i++) {
+    const a = (i / STEPS) * TURNS * Math.PI * 2;
+    const y = -5.5 + (i / STEPS) * 11;
+    strand1.push(new THREE.Vector3( Math.cos(a)*1.6, y,  Math.sin(a)*1.6));
+    strand2.push(new THREE.Vector3(-Math.cos(a)*1.6, y, -Math.sin(a)*1.6));
+    if (i % 14 === 0) nodePositions.push(i);
+  }
+
+  scene.add(new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints(strand1),
+    new THREE.LineBasicMaterial({ color:0xe91e8c, transparent:true, opacity:.85 })
+  ));
+  scene.add(new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints(strand2),
+    new THREE.LineBasicMaterial({ color:0xc2185b, transparent:true, opacity:.8 })
+  ));
+
+  const nodePalette = [0xc2185b,0xe91e8c,0xf06292,0xf48fb1,0xfce4ec,0xffb3c6,0xf48fb1,0xf06292,0xe91e8c,0xc2185b,0xfce4ec,0xf48fb1];
+  nodePositions.forEach((idx, ni) => {
+    const p1 = strand1[idx];
+    const p2 = strand2[idx];
+    const col = nodePalette[ni % nodePalette.length];
+    const mat = new THREE.MeshPhongMaterial({ color:col, emissive:col, emissiveIntensity:.38, shininess:240 });
+    const n1 = new THREE.Mesh(new THREE.SphereGeometry(.17, 12, 12), mat);
+    n1.position.copy(p1); scene.add(n1);
+    const n2 = new THREE.Mesh(new THREE.SphereGeometry(.17, 12, 12), mat.clone());
+    n2.position.copy(p2); scene.add(n2);
+    scene.add(new THREE.Line(
+      new THREE.BufferGeometry().setFromPoints([p1, p2]),
+      new THREE.LineBasicMaterial({ color:0x4a0820, transparent:true, opacity:.5 })
+    ));
+  });
+
+  const pN = 180;
+  const pPos = new Float32Array(pN * 3);
+  for (let i = 0; i < pN; i++) {
+    const a = Math.random() * Math.PI * 2;
+    const r = 1.8 + Math.random() * 1.4;
+    pPos[i*3]   = Math.cos(a) * r;
+    pPos[i*3+1] = -5.5 + Math.random() * 11;
+    pPos[i*3+2] = Math.sin(a) * r;
+  }
+  const pGeo = new THREE.BufferGeometry();
+  pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+  scene.add(new THREE.Points(pGeo, new THREE.PointsMaterial({
+    color:0xf48fb1, size:.07, transparent:true, opacity:.55, sizeAttenuation:true
+  })));
+
+  let t = 0;
+  (function loop() {
+    requestAnimationFrame(loop); t += .008;
+    scene.rotation.y = t * .45;
+    renderer.render(scene, camera);
+  })();
+})();
+</script>
+</body>
+</html>
